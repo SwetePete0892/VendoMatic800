@@ -105,7 +105,7 @@ public class VendingMachineCLI {
 	}
 
 	public void displayCurrentInventory(Map<String, VendingItem> currentInventory){
-		System.out.println("-----------------------------------------");
+		System.out.println("--------------------------------------------");
 
 		for(Map.Entry<String, VendingItem> individualVendingItem : currentInventory.entrySet()){
 
@@ -115,8 +115,14 @@ public class VendingMachineCLI {
 			BigDecimal currentPrice = individualVendingItem.getValue().getPrice();
 			int currentStock = individualVendingItem.getValue().getCurrentStock();
 
-			System.out.printf(currentLocation + " | %-20s | %-4s | %3d\n", currentName, currentPrice, currentStock);
-			System.out.println("-----------------------------------------");
+			if(currentStock == 0){
+				System.out.printf(currentLocation + " | %-20s | %-4s | SOLD OUT\n", currentName, currentPrice);
+				System.out.println("--------------------------------------------");
+			} else {
+				System.out.printf(currentLocation + " | %-20s | %-4s | %5d\n", currentName, currentPrice, currentStock);
+				System.out.println("--------------------------------------------");
+
+			}
 
 		}
 	}
