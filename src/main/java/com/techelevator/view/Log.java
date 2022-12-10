@@ -22,7 +22,7 @@ public class Log {
 
         try{
             if(theftWriter == null){
-                theftWriter = new PrintWriter(new FileOutputStream("theftLogHistory/" + LocalDate.now() + "theftLog.txt",true), true);
+                theftWriter = new PrintWriter(new FileOutputStream("theftLogHistory/" + LocalDate.now() + "theftLog.log",true), true);
             }
 
             //I need to go back and learn about local currency and how to use that
@@ -42,7 +42,7 @@ public class Log {
     // I think it works for the scope of the project because we never exceed 5 or restock
     // I plan to think of a better method that can handle restocking.
     private static void salesReport(Map<String, VendingItem> remainingInventory){
-        try(PrintWriter salesWriter = new PrintWriter(new FileOutputStream("salesLogHistory/"+ LocalDate.now() + "salesReport.txt", true))) {
+        try(PrintWriter salesWriter = new PrintWriter(new FileOutputStream("salesLogHistory/"+ LocalDate.now() + "salesReport.log", true))) {
             BigDecimal totalSales = new BigDecimal("0.00");
 
             for (Map.Entry<String, VendingItem> individualUnit : remainingInventory.entrySet()) {
