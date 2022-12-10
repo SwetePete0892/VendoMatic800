@@ -105,9 +105,19 @@ public class VendingMachineCLI {
 	}
 
 	public void displayCurrentInventory(Map<String, VendingItem> currentInventory){
+		System.out.println("-----------------------------------------");
+
 		for(Map.Entry<String, VendingItem> individualVendingItem : currentInventory.entrySet()){
-			System.out.printf(individualVendingItem.getKey() + " | " + individualVendingItem.getValue().getName() + " | $" +
-					individualVendingItem.getValue().getPrice() + " | " + "%s\n", individualVendingItem.getValue().getCurrentStock());
+
+			// To make it easier on the eyes, all values will be placed in their own variables
+			String currentLocation = individualVendingItem.getKey();
+			String currentName = individualVendingItem.getValue().getName();
+			BigDecimal currentPrice = individualVendingItem.getValue().getPrice();
+			int currentStock = individualVendingItem.getValue().getCurrentStock();
+
+			System.out.printf(currentLocation + " | %-20s | %-4s | %3d\n", currentName, currentPrice, currentStock);
+			System.out.println("-----------------------------------------");
+
 		}
 	}
 
