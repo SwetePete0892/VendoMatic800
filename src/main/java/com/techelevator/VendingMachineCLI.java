@@ -50,7 +50,7 @@ public class VendingMachineCLI {
 		cli.run();
 	}
 
-	public Map<String, VendingItem> createVendingInventory(File fileWithInventory){
+	/*public Map<String, VendingItem> createVendingInventory(File fileWithInventory){
 		// Creating a Tree map to hold our new items and keep them in order.
 			// The keys will be the locations
 		Map<String, VendingItem> vendingInventory = new TreeMap<>();
@@ -88,6 +88,62 @@ public class VendingMachineCLI {
 
 					case "candy":
 						CandyItem candyItem = new CandyItem(nameOfItem, priceOfItem);
+						vendingInventory.put(vendingLocation, candyItem);
+						break;
+
+					default:
+						System.out.println("Something went wrong while trying to create an item from the file.");
+				}
+
+			}
+
+		} catch (FileNotFoundException e){
+			System.out.println(e.getMessage());
+		}
+		return vendingInventory;
+
+	}*/
+
+	//modified slightly****************************************************************************************
+	public Map<String, VendingItem> createVendingInventory(File fileWithInventory){
+		// Creating a Tree map to hold our new items and keep them in order.
+			// The keys will be the locations
+		Map<String, VendingItem> vendingInventory = new TreeMap<>();
+
+		// Each line of the file will be split into an array.
+			// Each part of the array will be used to create an item and then store that item in a Map.
+		try(Scanner dataInput = new Scanner(fileWithInventory)){
+			while(dataInput.hasNextLine()){
+				String currentInventoryItem = dataInput.nextLine();
+				String[] inventoryIntoParts = currentInventoryItem.split("\\|");
+
+				// For readability, I will store each item of the array in a variable
+					// Turning a string into a BigDecimal is better for accuracy and format, so I have found
+				String vendingLocation = inventoryIntoParts[0];
+				String nameOfItem = inventoryIntoParts[1];
+				BigDecimal priceOfItem = new BigDecimal(inventoryIntoParts[2]);
+				String typeOfItem = inventoryIntoParts[3];
+
+				// Using a switch case to identify the type of item and then add to our Map
+				//Modified the item creation to use ENUM instead for item types*************************************
+				switch(typeOfItem.toLowerCase()){
+					case "gum":
+						VendingItem gumItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.GUM);
+						vendingInventory.put(vendingLocation, gumItem);
+						break;
+
+					case "chip":
+						VendingItem chipItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.CHIP);
+						vendingInventory.put(vendingLocation, chipItem);
+						break;
+
+					case "drink":
+						VendingItem drinkItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.DRINK);
+						vendingInventory.put(vendingLocation, drinkItem);
+						break;
+
+					case "candy":
+						VendingItem candyItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.CANDY);
 						vendingInventory.put(vendingLocation, candyItem);
 						break;
 
