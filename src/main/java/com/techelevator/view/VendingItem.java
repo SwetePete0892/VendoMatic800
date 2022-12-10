@@ -2,21 +2,24 @@ package com.techelevator.view;
 
 import java.math.BigDecimal;
 
-public abstract class VendingItem {
+public class VendingItem {
 
     // Properties of a Vending item
     private String name;
     private BigDecimal price;
     private int currentStock = 5;
 
+    private VendingItemTypes itemType;
+
     // Constructors
     public VendingItem(){
 
     }
 
-    public VendingItem(String name, BigDecimal price){
+    public VendingItem(String name, BigDecimal price, VendingItemTypes itemType){
         this.name = name;
         this.price = price;
+        this.itemType = itemType;
     }
 
     // Getters & Setters
@@ -34,7 +37,12 @@ public abstract class VendingItem {
         return currentStock;
     }
 
-    public void setCurrentStock(int currentStock){
-        this.currentStock = currentStock;
+    public void reduceStock(){
+        if(currentStock>0)currentStock--;
+    }
+
+    public String itemMessage(){
+        return itemType.message;
     }
 }
+
