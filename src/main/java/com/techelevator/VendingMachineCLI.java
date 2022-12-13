@@ -11,14 +11,10 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class VendingMachineCLI {
-
-	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
-	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
-	private static final String MAIN_MENU_OPTIONS_EXIT = "Exit";
-	private static final String[] MAIN_MENU_OPTIONS = { MAIN_MENU_OPTION_DISPLAY_ITEMS, MAIN_MENU_OPTION_PURCHASE, MAIN_MENU_OPTIONS_EXIT };
-
+	private static final String[] MAIN_MENU_OPTIONS =  MenuTextOptions.mainMenu();
+	private static final String[] PURCHASE_MENU_OPTIONS = MenuTextOptions.purchaseMenu();
 	private Menu menu;
-
+	
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
 	}
@@ -30,14 +26,32 @@ public class VendingMachineCLI {
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
-			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
+			if (choice.equals(MenuTextOptions.MAIN_MENU_DISPLAY_ITEMS.getText())) {
 				// display vending machine items
 				displayCurrentInventory(currentInventory);
 
-			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
+			} else if (choice.equals(MenuTextOptions.MAIN_MENU_OPTION_PURCHASE.getText())) {
 				// do purchase
-			} else if (choice.equals(MAIN_MENU_OPTIONS_EXIT)) {
+				purchase();
+			} else if (choice.equals(MenuTextOptions.MAIN_MENU_OPTION_EXIT.getText())) {
 				System.out.println("Thanks for using Vendo-Matic 800, an Umbrella Corp. project.");
+				break;
+			}
+		}
+	}
+	public void purchase() {
+
+		while (true) {
+			String choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+
+			if (choice.equals(MenuTextOptions.PURCHASE_MENU_FEED_MONEY.getText())) {
+				//needs the feed money method
+
+			} else if (choice.equals(MenuTextOptions.PURCHASE_MENU_SELECT_PRODUCT.getText())) {
+				//method to select which product to buy goes here
+
+			} else if (choice.equals(MenuTextOptions.PURCHASE_MENU_FINISH_TRANSACTION.getText())) {
+				//Needs to call the method that will give out all the change
 				break;
 			}
 		}
@@ -48,61 +62,6 @@ public class VendingMachineCLI {
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
 	}
-
-	/*public Map<String, VendingItem> createVendingInventory(File fileWithInventory){
-		// Creating a Tree map to hold our new items and keep them in order.
-			// The keys will be the locations
-		Map<String, VendingItem> vendingInventory = new TreeMap<>();
-
-		// Each line of the file will be split into an array.
-			// Each part of the array will be used to create an item and then store that item in a Map.
-		try(Scanner dataInput = new Scanner(fileWithInventory)){
-			while(dataInput.hasNextLine()){
-				String currentInventoryItem = dataInput.nextLine();
-				String[] inventoryIntoParts = currentInventoryItem.split("\\|");
-
-				// For readability, I will store each item of the array in a variable
-					// Turning a string into a BigDecimal is better for accuracy and format, so I have found
-				String vendingLocation = inventoryIntoParts[0];
-				String nameOfItem = inventoryIntoParts[1];
-				BigDecimal priceOfItem = new BigDecimal(inventoryIntoParts[2]);
-				String typeOfItem = inventoryIntoParts[3];
-
-				// Using a switch case to identify the type of item and then add to our Map
-				switch(typeOfItem.toLowerCase()){
-					case "gum":
-						GumItem gumItem = new GumItem(nameOfItem, priceOfItem);
-						vendingInventory.put(vendingLocation, gumItem);
-						break;
-
-					case "chip":
-						ChipItem chipItem = new ChipItem(nameOfItem, priceOfItem);
-						vendingInventory.put(vendingLocation, chipItem);
-						break;
-
-					case "drink":
-						DrinkItem drinkItem = new DrinkItem(nameOfItem, priceOfItem);
-						vendingInventory.put(vendingLocation, drinkItem);
-						break;
-
-					case "candy":
-						CandyItem candyItem = new CandyItem(nameOfItem, priceOfItem);
-						vendingInventory.put(vendingLocation, candyItem);
-						break;
-
-					default:
-						System.out.println("Something went wrong while trying to create an item from the file.");
-				}
-
-			}
-
-		} catch (FileNotFoundException e){
-			System.out.println(e.getMessage());
-		}
-		return vendingInventory;
-
-	}*/
-
 	//modified slightly****************************************************************************************
 	public Map<String, VendingItem> createVendingInventory(File fileWithInventory){
 		// Creating a Tree map to hold our new items and keep them in order.
