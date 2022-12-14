@@ -36,8 +36,11 @@ public class VendingMachineCLI {
 				// do purchase
 				purchase();
 			} else if (choice.equals(MenuTextOptions.MAIN_MENU_OPTION_EXIT.getText())) {
-				System.out.println("Thanks for using Vendo-Matic 800, an Umbrella Corp. project.");
+				// exit program
+				System.out.println("\nThanks for using Vendo-Matic 800, an Umbrella Corp. project.");
 				break;
+			} else if (choice.equals(MenuTextOptions.MAIN_MENU_DISPLAY_SECRET.getText())){
+				Log.salesReport(currentInventory);
 			}
 		}
 	}

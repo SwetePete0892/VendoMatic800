@@ -41,9 +41,11 @@ public class Log {
     // This was made with the intent of being run once at the end of the program.
     // I think it works for the scope of the project because we never exceed 5 or restock
     // I plan to think of a better method that can handle restocking.
-    private static void salesReport(Map<String, VendingItem> remainingInventory){
-        try(PrintWriter salesWriter = new PrintWriter(new FileOutputStream("salesLogHistory/"+ LocalDate.now() + "salesReport.log", true))) {
+    public static void salesReport(Map<String, VendingItem> remainingInventory){
+        try(PrintWriter salesWriter = new PrintWriter(new FileOutputStream(LocalDate.now() + "salesReport.txt", true))) {
             BigDecimal totalSales = new BigDecimal("0.00");
+
+            salesWriter.println("SALES REPORT: " + TIMESTAMP);
 
             for (Map.Entry<String, VendingItem> individualUnit : remainingInventory.entrySet()) {
                 // For the sanity of the reader, values are put into variables
@@ -56,12 +58,15 @@ public class Log {
                     BigDecimal unitsSoldDecimal = new BigDecimal(unitsSold);
                     totalSales = totalSales.add(itemPrice.multiply(unitsSoldDecimal));
                     System.out.println(itemName + " | " + unitsSold);
+                    salesWriter.println(itemName + " | " + unitsSold);
 
                 } else {
                     System.out.println(itemName + " | " + 0);
+                    salesWriter.println(itemName + " | " + 0);
                 }
             }
             System.out.println("**TOTAL SALES** " + totalSales);
+            salesWriter.println("**TOTAL SALES** " + totalSales + "\n");
 
         } catch (Exception e) {
             System.out.println("Something went wrong with the Sales Report");
