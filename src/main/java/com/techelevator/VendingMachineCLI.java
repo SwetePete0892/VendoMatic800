@@ -1,6 +1,7 @@
 package com.techelevator;
 
 import com.techelevator.view.*;
+import com.techelevator.view.VendingGUI;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +16,7 @@ public class VendingMachineCLI {
 	private static final String[] PURCHASE_MENU_OPTIONS = MenuTextOptions.purchaseMenu();
 	private Menu menu;
 	public File vendingInventoryCatalog = new File("vendingmachine.csv");
-	Map<String, VendingItem> currentInventory = new TreeMap<>(createVendingInventory(vendingInventoryCatalog));
+	private static Map<String, VendingItem> currentInventory = new TreeMap<>();
 	private static BigDecimal currentMoney = new BigDecimal("0.00");
 
 	// Constructor
@@ -25,9 +26,8 @@ public class VendingMachineCLI {
 
 	// Setters & Getters
 
-	public static void setCurrentMoney(BigDecimal updatedMoney){
-		currentMoney = updatedMoney;
-	}
+	public static void setCurrentMoney(BigDecimal updatedMoney){currentMoney = updatedMoney;}
+	public static Map<String, VendingItem> getCurrentInventory() {return currentInventory;}
 
 	public static BigDecimal getCurrentMoney(){
 		return currentMoney;
@@ -35,8 +35,17 @@ public class VendingMachineCLI {
 	public static void main(String[] args) {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
+		cli.createVendingInventory();
+		new VendingGUI();
+	}
+	public static void alternateRun(){
+		Menu menu = new Menu(System.in, System.out);
+		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
 	}
+
+
+
 	public void run() {
 
 		while (true) {
@@ -71,7 +80,7 @@ public class VendingMachineCLI {
 				displayCurrentInventory(currentInventory);
 				menu.selectItem(currentInventory);
 			} else if (choice.equals(MenuTextOptions.PURCHASE_MENU_FINISH_TRANSACTION.getText())) {
-				menu.remainingChange(currentMoney);
+				Menu.remainingChange(currentMoney);
 				break;
 			}
 		}
@@ -79,14 +88,10 @@ public class VendingMachineCLI {
 
 
 	//modified slightly****************************************************************************************
-	public Map<String, VendingItem> createVendingInventory(File fileWithInventory){
-		// Creating a Tree map to hold our new items and keep them in order.
-			// The keys will be the locations
-		Map<String, VendingItem> vendingInventory = new TreeMap<>();
-
+	public void createVendingInventory(){
 		// Each line of the file will be split into an array.
 			// Each part of the array will be used to create an item and then store that item in a Map.
-		try(Scanner dataInput = new Scanner(fileWithInventory)){
+		try(Scanner dataInput = new Scanner(vendingInventoryCatalog)){
 			while(dataInput.hasNextLine()){
 				String currentInventoryItem = dataInput.nextLine();
 				String[] inventoryIntoParts = currentInventoryItem.split("\\|");
@@ -103,22 +108,22 @@ public class VendingMachineCLI {
 				switch(typeOfItem.toLowerCase()){
 					case "gum":
 						VendingItem gumItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.GUM);
-						vendingInventory.put(vendingLocation, gumItem);
+						currentInventory.put(vendingLocation, gumItem);
 						break;
 
 					case "chip":
 						VendingItem chipItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.CHIP);
-						vendingInventory.put(vendingLocation, chipItem);
+						currentInventory.put(vendingLocation, chipItem);
 						break;
 
 					case "drink":
 						VendingItem drinkItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.DRINK);
-						vendingInventory.put(vendingLocation, drinkItem);
+						currentInventory.put(vendingLocation, drinkItem);
 						break;
 
 					case "candy":
 						VendingItem candyItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.CANDY);
-						vendingInventory.put(vendingLocation, candyItem);
+						currentInventory.put(vendingLocation, candyItem);
 						break;
 
 					default:
@@ -130,7 +135,6 @@ public class VendingMachineCLI {
 		} catch (FileNotFoundException e){
 			System.out.println(e.getMessage());
 		}
-		return vendingInventory;
 
 	}
 
@@ -155,6 +159,30 @@ public class VendingMachineCLI {
 			}
 
 		}
+	}
+	public static String displayCurrentInventoryString(Map<String, VendingItem> currentInventory){
+
+		StringBuilder test = new StringBuilder();
+
+		for(Map.Entry<String, VendingItem> individualVendingItem : currentInventory.entrySet()){
+
+			// To make it easier on the eyes, all values will be placed in their own variables
+			String currentLocation = individualVendingItem.getKey();
+			String currentName = individualVendingItem.getValue().getName();
+			BigDecimal currentPrice = individualVendingItem.getValue().getPrice();
+			int currentStock = individualVendingItem.getValue().getCurrentStock();
+
+			if(currentStock == 0){
+				test.append(currentLocation).append(" | ").append(currentName).append(" | ").append(currentPrice).append(" | SOLD OUT\n");
+				test.append("--------------------------------------------\n");
+			} else {
+				test.append(currentLocation).append(" | ").append(currentName).append(" | ").append(currentPrice).append(" | ").append(currentStock).append("\n");
+				test.append("--------------------------------------------\n");
+
+			}
+
+		}
+		return test.toString();
 	}
 
 }

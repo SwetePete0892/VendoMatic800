@@ -85,7 +85,7 @@ public class Menu {
 			}
 	}
 
-	public void remainingChange(BigDecimal change){
+	public static void remainingChange(BigDecimal change){
 		Integer tempChange = change.multiply(new BigDecimal(100)).intValue();
 		int quarters = tempChange / 25;
 		tempChange = tempChange % 25;
@@ -120,5 +120,14 @@ public class Menu {
 				}else {
 					System.out.println("Item not found");
 				}
+	}
+	public static void feedMoneyGUI(int amount){
+		if(amount>0)VendingMachineCLI.setCurrentMoney(new BigDecimal(amount).add(VendingMachineCLI.getCurrentMoney()));
+	}
+	public static void selectItemGUI(String item, Map<String, VendingItem> inventory){
+		item = item.toUpperCase();
+		if(inventory.containsKey(item)&&VendingMachineCLI.getCurrentMoney().compareTo(inventory.get(item).getPrice())>0){
+			VendingMachineCLI.setCurrentMoney(VendingMachineCLI.getCurrentMoney().subtract(inventory.get(item).getPrice()));
+		}
 	}
 }
