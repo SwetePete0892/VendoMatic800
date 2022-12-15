@@ -14,14 +14,24 @@ public class VendingMachineCLI {
 	private static final String[] MAIN_MENU_OPTIONS =  MenuTextOptions.mainMenu();
 	private static final String[] PURCHASE_MENU_OPTIONS = MenuTextOptions.purchaseMenu();
 	private Menu menu;
-	
+	public File vendingInventoryCatalog = new File("vendingmachine.csv");
+	Map<String, VendingItem> currentInventory = new TreeMap<>(createVendingInventory(vendingInventoryCatalog));
+	private static BigDecimal currentMoney = new BigDecimal("0.00");
+
+	// Constructor
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
 	}
-	public File vendingInventoryCatalog = new File("vendingmachine.csv");
-	Map<String, VendingItem> currentInventory = new TreeMap<>(createVendingInventory(vendingInventoryCatalog));
 
-	private BigDecimal currentMoney = new BigDecimal(0);
+	// Setters & Getters
+
+	public static void setCurrentMoney(BigDecimal updatedMoney){
+		currentMoney = updatedMoney;
+	}
+
+	public static BigDecimal getCurrentMoney(){
+		return currentMoney;
+	}
 
 	public void run() {
 
@@ -45,7 +55,7 @@ public class VendingMachineCLI {
 		}
 	}
 	public void purchase() {
-		Scanner input = new Scanner(System.in);
+//		Scanner input = new Scanner(System.in);
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 
@@ -54,8 +64,8 @@ public class VendingMachineCLI {
 				// will continue to asking if wanting to input money if so checks that is not equal to zero and greater than 0
 				//if it is 0 or neg number will say they can't input such number
 				//if user does not want to enter more money will display money entered and current money
-				boolean feed = true;
-				BigDecimal moneyFeed = new BigDecimal(0);
+				/* boolean feed = true;
+				BigDecimal moneyFeed = new BigDecimal("0.00");
 				while(feed) {
 					System.out.println("would you like to input money?(Enter y or yes to feed,enter n or no to exit)");
 					String keepFeeding = input.nextLine();
@@ -73,40 +83,45 @@ public class VendingMachineCLI {
 						System.out.println("amount entered "+moneyFeed+" current amount "+ currentMoney);
 						feed=false;
 					}
-				}
+				} */
+
+				menu.feedMoney(currentMoney);
+
 			} else if (choice.equals(MenuTextOptions.PURCHASE_MENU_SELECT_PRODUCT.getText())) {
 				//method to select which product to buy goes here
-				displayCurrentInventory(currentInventory);
-				System.out.println("Please Type the items code");
-				String code = input.nextLine();
-				code = code.toUpperCase();
-				//first checks if code is in map
-				// checks if machine has enough money first
-				// if it is sold out return to menu
-				// if not Sold out print item's description and message and reduce stock
-				//if code is not in map item not found and returns to menu
-				if(currentInventory.containsKey(code)){
-					if(currentMoney.equals(0)||currentMoney.compareTo(currentInventory.get(code).getPrice())==-1){
-						System.out.println("There's not enough money"+" current money:"+currentMoney);
-						menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
-					}else if(currentInventory.get(code).getCurrentStock() == 0){
-						System.out.println("The current Item is SOLD OUT");
-						menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
-					}else{
-						currentInventory.get(code).reduceStock();
-						currentMoney = currentMoney.subtract(currentInventory.get(code).getPrice());
-						System.out.println(currentInventory.get(code).getName()+" cost:"+currentInventory.get(code).getPrice()+" money Remaining:"+currentMoney+" "+currentInventory.get(code).itemMessage());
-					}
-				}else {
-					System.out.println("Item not found");
-					menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
-				}
+//				displayCurrentInventory(currentInventory);
+//				System.out.println("Please Type the items code");
+//				String code = input.nextLine();
+//				code = code.toUpperCase();
+//				//first checks if code is in map
+//				// checks if machine has enough money first
+//				// if it is sold out return to menu
+//				// if not Sold out print item's description and message and reduce stock
+//				//if code is not in map item not found and returns to menu
+//				if(currentInventory.containsKey(code)){
+//					if(currentMoney.equals(0)||currentMoney.compareTo(currentInventory.get(code).getPrice())==-1){
+//						System.out.println("There's not enough money"+" current money:"+currentMoney);
+//						menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+//					}else if(currentInventory.get(code).getCurrentStock() == 0){
+//						System.out.println("The current Item is SOLD OUT");
+//						menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+//					}else{
+//						currentInventory.get(code).reduceStock();
+//						currentMoney = currentMoney.subtract(currentInventory.get(code).getPrice());
+//						System.out.println(currentInventory.get(code).getName()+" cost:"+currentInventory.get(code).getPrice()+" money Remaining:"+currentMoney+" " +
+//								""+currentInventory.get(code).itemMessage());
+//					}
+//				}else {
+//					System.out.println("Item not found");
+//					menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+//				}
 
 
 
 
 			} else if (choice.equals(MenuTextOptions.PURCHASE_MENU_FINISH_TRANSACTION.getText())) {
 				//Needs to call the method that will give out all the change
+//				input.close();
 				break;
 			}
 		}

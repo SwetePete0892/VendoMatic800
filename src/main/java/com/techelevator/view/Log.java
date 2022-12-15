@@ -15,21 +15,21 @@ public class Log {
     private static PrintWriter theftWriter;
     private static final String TIMESTAMP = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT).format(LocalDateTime.now());
 
-    public static void theftLog(String action, BigDecimal transactionAmount, BigDecimal totalMoney) throws FileNotFoundException {
+    public static void theftLog(String action, BigDecimal transactionAmount, BigDecimal totalMoney) {
         // Trying to reduce how many times we need to open and close a PrintWriter
             // With the naming convention, I hope to build a folder that holds all the theft logs.
             // It creates a new log for every day. If a log for the current day exists, it simply appends to it.
 
         try{
             if(theftWriter == null){
-                theftWriter = new PrintWriter(new FileOutputStream("theftLogHistory/" + LocalDate.now() + "theftLog.log",true), true);
+                theftWriter = new PrintWriter(new FileOutputStream(LocalDate.now() + "theftLog.log",true), true);
             }
 
             //I need to go back and learn about local currency and how to use that
             theftWriter.println(TIMESTAMP + " " + action + " $" + transactionAmount + " $" + totalMoney);
 
         } catch (FileNotFoundException nfe){
-
+            System.out.println(nfe.getMessage());
 
         } catch (Exception e) {
             // Should I make a custom exception?
