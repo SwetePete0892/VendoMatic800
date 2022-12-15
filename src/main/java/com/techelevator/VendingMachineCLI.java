@@ -32,7 +32,11 @@ public class VendingMachineCLI {
 	public static BigDecimal getCurrentMoney(){
 		return currentMoney;
 	}
-
+	public static void main(String[] args) {
+		Menu menu = new Menu(System.in, System.out);
+		VendingMachineCLI cli = new VendingMachineCLI(menu);
+		cli.run();
+	}
 	public void run() {
 
 		while (true) {
@@ -61,29 +65,6 @@ public class VendingMachineCLI {
 
 			if (choice.equals(MenuTextOptions.PURCHASE_MENU_FEED_MONEY.getText())) {
 				//needs the feed money method
-				// will continue to asking if wanting to input money if so checks that is not equal to zero and greater than 0
-				//if it is 0 or neg number will say they can't input such number
-				//if user does not want to enter more money will display money entered and current money
-				/* boolean feed = true;
-				BigDecimal moneyFeed = new BigDecimal("0.00");
-				while(feed) {
-					System.out.println("would you like to input money?(Enter y or yes to feed,enter n or no to exit)");
-					String keepFeeding = input.nextLine();
-					keepFeeding=keepFeeding.toUpperCase();
-					if (keepFeeding.equals("Y") || keepFeeding.equals("YES")) {
-						System.out.println("How much will be inserted?");
-						BigDecimal amount = input.nextBigDecimal();
-						if (amount.compareTo(BigDecimal.valueOf(0))>0){
-							currentMoney = currentMoney.add(amount);
-							moneyFeed = moneyFeed.add(amount);
-						}else {
-							System.out.println("cant input a negative number or 0");
-						}
-					}else if (keepFeeding.equals("N") || keepFeeding.equals("NO")){
-						System.out.println("amount entered "+moneyFeed+" current amount "+ currentMoney);
-						feed=false;
-					}
-				} */
 				menu.feedMoney(currentMoney);
 			} else if (choice.equals(MenuTextOptions.PURCHASE_MENU_SELECT_PRODUCT.getText())) {
 				//method to select which product to buy goes here
@@ -96,11 +77,7 @@ public class VendingMachineCLI {
 		}
 	}
 
-	public static void main(String[] args) {
-		Menu menu = new Menu(System.in, System.out);
-		VendingMachineCLI cli = new VendingMachineCLI(menu);
-		cli.run();
-	}
+
 	//modified slightly****************************************************************************************
 	public Map<String, VendingItem> createVendingInventory(File fileWithInventory){
 		// Creating a Tree map to hold our new items and keep them in order.

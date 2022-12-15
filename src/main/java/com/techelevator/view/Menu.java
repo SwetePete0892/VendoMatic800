@@ -63,7 +63,7 @@ public class Menu {
 
 	public void feedMoney(BigDecimal currentMoney) {
 		//needs the feed money method
-		// will continue to asking if wanting to input money if so checks that is not equal to zero and greater than 0
+		// checks that is not equal to zero and greater than 0
 		//if it is 0 or neg number will say they can't input such number
 		//if user does not want to enter more money will display money entered and current money
 
