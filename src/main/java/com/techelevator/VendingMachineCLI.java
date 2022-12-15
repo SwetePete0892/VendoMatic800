@@ -84,44 +84,13 @@ public class VendingMachineCLI {
 						feed=false;
 					}
 				} */
-
 				menu.feedMoney(currentMoney);
-
 			} else if (choice.equals(MenuTextOptions.PURCHASE_MENU_SELECT_PRODUCT.getText())) {
 				//method to select which product to buy goes here
-//				displayCurrentInventory(currentInventory);
-//				System.out.println("Please Type the items code");
-//				String code = input.nextLine();
-//				code = code.toUpperCase();
-//				//first checks if code is in map
-//				// checks if machine has enough money first
-//				// if it is sold out return to menu
-//				// if not Sold out print item's description and message and reduce stock
-//				//if code is not in map item not found and returns to menu
-//				if(currentInventory.containsKey(code)){
-//					if(currentMoney.equals(0)||currentMoney.compareTo(currentInventory.get(code).getPrice())==-1){
-//						System.out.println("There's not enough money"+" current money:"+currentMoney);
-//						menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
-//					}else if(currentInventory.get(code).getCurrentStock() == 0){
-//						System.out.println("The current Item is SOLD OUT");
-//						menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
-//					}else{
-//						currentInventory.get(code).reduceStock();
-//						currentMoney = currentMoney.subtract(currentInventory.get(code).getPrice());
-//						System.out.println(currentInventory.get(code).getName()+" cost:"+currentInventory.get(code).getPrice()+" money Remaining:"+currentMoney+" " +
-//								""+currentInventory.get(code).itemMessage());
-//					}
-//				}else {
-//					System.out.println("Item not found");
-//					menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
-//				}
-
-
-
-
+				displayCurrentInventory(currentInventory);
+				menu.selectItem(currentInventory);
 			} else if (choice.equals(MenuTextOptions.PURCHASE_MENU_FINISH_TRANSACTION.getText())) {
-				//Needs to call the method that will give out all the change
-//				input.close();
+				menu.remainingChange(currentMoney);
 				break;
 			}
 		}

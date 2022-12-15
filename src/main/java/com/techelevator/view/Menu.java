@@ -7,12 +7,15 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.InputMismatchException;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Menu {
 
 	private PrintWriter out;
 	private Scanner in;
+
+	private final int MAX_MENU_SIZE = 3;
 
 	public Menu(InputStream input, OutputStream output) {
 		this.out = new PrintWriter(output);
@@ -47,7 +50,7 @@ public class Menu {
 
 	private void displayMenuOptions(Object[] options) {
 		out.println();
-		for (int i = 0; i < options.length; i++) {
+		for (int i = 0; i < MAX_MENU_SIZE; i++) {
 
 			int optionNum = i + 1;
 			out.println(optionNum + ") " + options[i]);
@@ -89,10 +92,33 @@ public class Menu {
 		int dimes = tempChange / 10;
 		tempChange = tempChange % 10;
 		int nickels = tempChange / 5;
-		VendingMachineCLI.setCurrentMoney(BigDecimal.ZERO);
 
-
-		System.out.println("Your change: " + quarters +  " quarters "
+		System.out.println("Your change of $" + VendingMachineCLI.getCurrentMoney() + ": " + quarters +  " quarters "
 				+ dimes + " dimes " + nickels + " nickels ");
+		VendingMachineCLI.setCurrentMoney(BigDecimal.ZERO);
+	}
+	public void selectItem(Map<String, VendingItem> map){
+
+				System.out.println("Please Type the items code");
+				String code = in.nextLine().toUpperCase();
+				//first checks if code is in map
+				// checks if machine has enough money first
+				// if it is sold out return to menu
+				// if not Sold out print item's description and message and reduce stock
+				//if code is not in map item not found and returns to menu
+				if(map.containsKey(code)){
+					if(VendingMachineCLI.getCurrentMoney().compareTo(map.get(code).getPrice()) < 0){
+						System.out.println("There's not enough money"+" current money: $"+VendingMachineCLI.getCurrentMoney());
+					}else if(map.get(code).getCurrentStock() == 0){
+						System.out.println("The current Item is SOLD OUT");
+					}else{
+						map.get(code).reduceStock();
+						VendingMachineCLI.setCurrentMoney(VendingMachineCLI.getCurrentMoney().subtract(map.get(code).getPrice()));
+						System.out.println(map.get(code).getName()+" cost: $"+map.get(code).getPrice()+" money Remaining: $"+VendingMachineCLI.getCurrentMoney()+" " +
+								"\n"+map.get(code).itemMessage());
+					}
+				}else {
+					System.out.println("Item not found");
+				}
 	}
 }
