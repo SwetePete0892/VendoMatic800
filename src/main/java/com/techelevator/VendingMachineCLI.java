@@ -64,6 +64,7 @@ public class VendingMachineCLI {
 				System.exit(0);
 			} else if (choice.equals(MenuTextOptions.MAIN_MENU_DISPLAY_SECRET.getText())){
 				Log.salesReport(currentInventory);
+			}else if(choice.equals(MenuTextOptions.MAIN_MENU_GUI.getText())){
 			}
 		}
 	}
@@ -80,7 +81,7 @@ public class VendingMachineCLI {
 				displayCurrentInventory(currentInventory);
 				menu.selectItem(currentInventory);
 			} else if (choice.equals(MenuTextOptions.PURCHASE_MENU_FINISH_TRANSACTION.getText())) {
-				Menu.remainingChange(currentMoney);
+				System.out.println(Menu.remainingChange(currentMoney));
 				break;
 			}
 		}

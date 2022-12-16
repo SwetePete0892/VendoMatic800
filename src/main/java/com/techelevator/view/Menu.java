@@ -86,7 +86,7 @@ public class Menu {
 			}
 	}
 
-	public static void remainingChange(BigDecimal change){
+	public static String remainingChange(BigDecimal change){
 		Integer tempChange = change.multiply(new BigDecimal(100)).intValue();
 		int quarters = tempChange / 25;
 		tempChange = tempChange % 25;
@@ -94,11 +94,12 @@ public class Menu {
 		tempChange = tempChange % 10;
 		int nickels = tempChange / 5;
 
-		System.out.println("Your change of $" + VendingMachineCLI.getCurrentMoney() + ": " + quarters +  " quarters "
+		String givenChange =("Your change of $" + VendingMachineCLI.getCurrentMoney() + ": " + quarters +  " quarters "
 				+ dimes + " dimes " + nickels + " nickels ");
 
 		VendingMachineCLI.setCurrentMoney(BigDecimal.ZERO);
 		Log.theftLog("Give Change", change, VendingMachineCLI.getCurrentMoney());
+		return givenChange;
 	}
 	public void selectItem(Map<String, VendingItem> map){
 

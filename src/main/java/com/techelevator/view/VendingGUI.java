@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class VendingGUI {
     //making the window and panels
-    JFrame window = new JFrame();
+    static JFrame window = new JFrame();
     JPanel mainMenu = new JPanel();
     JPanel purchase = new JPanel();
     JLabel cash = new JLabel();
@@ -30,24 +30,19 @@ public class VendingGUI {
         mainMenu.addKeyListener(new MyKeyAdapter());
         mainMenu.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
-
-
-
-
         purchase.setLayout(new GridLayout(4,1,10,10));
         purchase.setPreferredSize(new Dimension(1000,750));
         purchase.setFocusable(true);
         purchase.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+
         cash.setText("Current Money : $" + VendingMachineCLI.getCurrentMoney());
         cash.setHorizontalTextPosition(JLabel.CENTER);
         cash.setHorizontalAlignment(JLabel.CENTER);
         cash.setSize(new Dimension(250, 100 ));
         cash.setBorder(BorderFactory.createEtchedBorder());
         cash.setBackground(Color.DARK_GRAY);
+
         purchase.add(cash);
-
-
-
 
 
         //adding buttons and their uses
@@ -88,7 +83,7 @@ public class VendingGUI {
         finishedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Menu.remainingChange(VendingMachineCLI.getCurrentMoney());
+                JOptionPane.showMessageDialog(window, Menu.remainingChange(VendingMachineCLI.getCurrentMoney()), "Returned Change", JOptionPane.INFORMATION_MESSAGE);
                 cash.setText("Current Money : $" + VendingMachineCLI.getCurrentMoney());
                 window.setContentPane(mainMenu);
                 window.invalidate();
@@ -98,7 +93,6 @@ public class VendingGUI {
 
             }
         });
-
         //Adding buttons to panels
         mainMenu.add(displayStuff);
         mainMenu.add(purchaseMenuButton);
@@ -109,10 +103,6 @@ public class VendingGUI {
 
         window.pack();
 
-
-    }
-    public static void open(){
-        new VendingGUI();
     }
     public class MyKeyAdapter extends KeyAdapter {
         @Override
@@ -122,16 +112,11 @@ public class VendingGUI {
                     window.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
                     window.dispose();
                     VendingMachineCLI.alternateRun();
-
-
                     break;
                 case KeyEvent.VK_4:
                     Log.salesReport(VendingMachineCLI.getCurrentInventory());
-
                     break;
             }
-
         }
     }
-
 }

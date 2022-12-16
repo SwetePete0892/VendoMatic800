@@ -12,14 +12,14 @@ import static org.junit.Assert.*;
 
 public class VendingMachineCLITest {
 
-    /*@Test
+    @Test
     public void vending_itemMapBuild_Tests() {
         VendingMachineCLI test = new VendingMachineCLI(new Menu(System.in, System.out));
         File tesfile = new File("vendingMachine.csv");
-        Map<String, VendingItem> testMap = test.createVendingInventory(tesfile);
-        assertEquals(16, testMap.size());
-        assertEquals("Potato Crisps", testMap.get("A1").getName());
-        assertEquals(new BigDecimal("1.80"), testMap.get("B1").getPrice());
-        assertEquals("Glug Glug, Yum!", testMap.get("C1").itemMessage());
-    }*/
+        test.createVendingInventory();
+        assertEquals(16, VendingMachineCLI.getCurrentInventory().size());
+        assertEquals("Potato Crisps", VendingMachineCLI.getCurrentInventory().get("A1").getName());
+        assertEquals(new BigDecimal("1.80"), VendingMachineCLI.getCurrentInventory().get("B1").getPrice());
+        assertEquals("Glug Glug, Yum!", VendingMachineCLI.getCurrentInventory().get("C1").itemMessage());
+    }
 }
