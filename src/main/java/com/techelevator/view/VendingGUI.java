@@ -13,6 +13,8 @@ public class VendingGUI {
     JFrame window = new JFrame();
     JPanel mainMenu = new JPanel();
     JPanel purchase = new JPanel();
+    JLabel cash = new JLabel();
+
 
     public VendingGUI(){
         window.setPreferredSize(new Dimension(1000,750));
@@ -28,10 +30,22 @@ public class VendingGUI {
         mainMenu.addKeyListener(new MyKeyAdapter());
         mainMenu.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
 
-        purchase.setLayout(new GridLayout(3,1,10,10));
+
+
+
+
+        purchase.setLayout(new GridLayout(4,1,10,10));
         purchase.setPreferredSize(new Dimension(1000,750));
         purchase.setFocusable(true);
         purchase.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        cash.setText("Current Money : $" + VendingMachineCLI.getCurrentMoney());
+        cash.setHorizontalTextPosition(JLabel.CENTER);
+        cash.setHorizontalAlignment(JLabel.CENTER);
+        cash.setSize(new Dimension(250, 100 ));
+        cash.setBorder(BorderFactory.createEtchedBorder());
+        cash.setBackground(Color.DARK_GRAY);
+        purchase.add(cash);
+
 
 
 
@@ -58,6 +72,7 @@ public class VendingGUI {
                 Menu.feedMoneyGUI(passedMoney, window);
                 Log.theftLog("Feed Money", new BigDecimal(passedMoney), VendingMachineCLI.getCurrentMoney());
                 System.out.println("Current Money: $"+VendingMachineCLI.getCurrentMoney());
+                cash.setText("Current Money : $" + VendingMachineCLI.getCurrentMoney());
             }
         });
         JButton selectButton = new JButton("Select Item");
@@ -66,6 +81,7 @@ public class VendingGUI {
             public void actionPerformed(ActionEvent e) {
                 String item = JOptionPane.showInputDialog(window, VendingMachineCLI.displayCurrentInventoryString(VendingMachineCLI.getCurrentInventory()),"Please enter the Location", JOptionPane.QUESTION_MESSAGE);
                 Menu.selectItemGUI(item, VendingMachineCLI.getCurrentInventory(), window);
+                cash.setText("Current Money : $" + VendingMachineCLI.getCurrentMoney());
             }
         });
         JButton finishedButton = new JButton("Finish Transaction");
@@ -73,6 +89,7 @@ public class VendingGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Menu.remainingChange(VendingMachineCLI.getCurrentMoney());
+                cash.setText("Current Money : $" + VendingMachineCLI.getCurrentMoney());
                 window.setContentPane(mainMenu);
                 window.invalidate();
                 window.validate();
@@ -89,6 +106,7 @@ public class VendingGUI {
         purchase.add(feedButton);
         purchase.add(selectButton);
         purchase.add(finishedButton);
+
         window.pack();
 
 
@@ -115,4 +133,5 @@ public class VendingGUI {
 
         }
     }
+
 }

@@ -96,7 +96,9 @@ public class Menu {
 
 		System.out.println("Your change of $" + VendingMachineCLI.getCurrentMoney() + ": " + quarters +  " quarters "
 				+ dimes + " dimes " + nickels + " nickels ");
+
 		VendingMachineCLI.setCurrentMoney(BigDecimal.ZERO);
+		Log.theftLog("Give Change", change, VendingMachineCLI.getCurrentMoney());
 	}
 	public void selectItem(Map<String, VendingItem> map){
 
