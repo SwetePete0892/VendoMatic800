@@ -105,26 +105,33 @@ public class Menu {
 
 				System.out.println("Please Type the items code");
 				String code = in.nextLine().toUpperCase();
-				//first checks if code is in map
-				// checks if machine has enough money first
-				// if it is sold out return to menu
-				// if not Sold out print item's description and message and reduce stock
-				//if code is not in map item not found and returns to menu
-				if(map.containsKey(code)){
-					if(VendingMachineCLI.getCurrentMoney().compareTo(map.get(code).getPrice()) < 0){
-						System.out.println("There's not enough money"+" current money: $"+VendingMachineCLI.getCurrentMoney());
-					}else if(map.get(code).getCurrentStock() == 0){
-						System.out.println("The current Item is SOLD OUT");
-					}else{
-						map.get(code).reduceStock();
-						VendingMachineCLI.setCurrentMoney(VendingMachineCLI.getCurrentMoney().subtract(map.get(code).getPrice()));
-						System.out.println(map.get(code).getName()+" cost: $"+map.get(code).getPrice()+" money Remaining: $"+VendingMachineCLI.getCurrentMoney()+" " +
-								"\n"+map.get(code).itemMessage());
-					}
-				}else {
-					System.out.println("Item not found");
-				}
+				Menu.buyItem(code, map);
+
 	}
+	public static void buyItem(String code, Map<String, VendingItem> map ){
+		//first checks if code is in map
+		// checks if machine has enough money first
+		// if it is sold out return to menu
+		// if not Sold out print item's description and message and reduce stock
+		//if code is not in map item not found and returns to menu
+		if(map.containsKey(code)){
+			if(VendingMachineCLI.getCurrentMoney().compareTo(map.get(code).getPrice()) < 0){
+				System.out.println("There's not enough money"+" current money: $"+VendingMachineCLI.getCurrentMoney());
+			}else if(map.get(code).getCurrentStock() == 0){
+				System.out.println("The current Item is SOLD OUT");
+			}else{
+				map.get(code).reduceStock();
+				VendingMachineCLI.setCurrentMoney(VendingMachineCLI.getCurrentMoney().subtract(map.get(code).getPrice()));
+				System.out.println(map.get(code).getName()+" cost: $"+map.get(code).getPrice()+" money Remaining: $"+VendingMachineCLI.getCurrentMoney()+" " +
+						"\n"+map.get(code).itemMessage());
+			}
+		}else {
+			System.out.println("Item not found");
+		}
+	}
+
+
+
 	public static void feedMoneyGUI(int amount, JFrame window){
 		if(amount>0){
 			VendingMachineCLI.setCurrentMoney(new BigDecimal(amount).add(VendingMachineCLI.getCurrentMoney()));
