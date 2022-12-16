@@ -13,6 +13,7 @@ public class VendingGUI {
     JFrame window = new JFrame();
     JPanel mainMenu = new JPanel();
     JPanel purchase = new JPanel();
+
     public VendingGUI(){
         window.setPreferredSize(new Dimension(1000,750));
 
@@ -54,9 +55,9 @@ public class VendingGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int passedMoney = Integer.parseInt(JOptionPane.showInputDialog(window,"Please Enter Amount Of Money To Deposit", "Feed Money", JOptionPane.QUESTION_MESSAGE));
-                Menu.feedMoneyGUI(passedMoney);
+                Menu.feedMoneyGUI(passedMoney, window);
                 Log.theftLog("Feed Money", new BigDecimal(passedMoney), VendingMachineCLI.getCurrentMoney());
-                System.out.println(VendingMachineCLI.getCurrentMoney());
+                System.out.println("Current Money: $"+VendingMachineCLI.getCurrentMoney());
             }
         });
         JButton selectButton = new JButton("Select Item");
@@ -64,7 +65,7 @@ public class VendingGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String item = JOptionPane.showInputDialog(window, VendingMachineCLI.displayCurrentInventoryString(VendingMachineCLI.getCurrentInventory()),"Please enter the Location", JOptionPane.QUESTION_MESSAGE);
-                Menu.selectItemGUI(item, VendingMachineCLI.getCurrentInventory());
+                Menu.selectItemGUI(item, VendingMachineCLI.getCurrentInventory(), window);
             }
         });
         JButton finishedButton = new JButton("Finish Transaction");
@@ -74,8 +75,10 @@ public class VendingGUI {
                 Menu.remainingChange(VendingMachineCLI.getCurrentMoney());
                 window.setContentPane(mainMenu);
                 window.invalidate();
-                window.invalidate();
-                mainMenu.addKeyListener(new MyKeyAdapter());
+                window.validate();
+                mainMenu.requestFocusInWindow();
+
+
             }
         });
 

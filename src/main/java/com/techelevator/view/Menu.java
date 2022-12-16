@@ -2,6 +2,7 @@ package com.techelevator.view;
 
 import com.techelevator.VendingMachineCLI;
 
+import javax.swing.*;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -121,13 +122,30 @@ public class Menu {
 					System.out.println("Item not found");
 				}
 	}
-	public static void feedMoneyGUI(int amount){
-		if(amount>0)VendingMachineCLI.setCurrentMoney(new BigDecimal(amount).add(VendingMachineCLI.getCurrentMoney()));
-	}
-	public static void selectItemGUI(String item, Map<String, VendingItem> inventory){
-		item = item.toUpperCase();
-		if(inventory.containsKey(item)&&VendingMachineCLI.getCurrentMoney().compareTo(inventory.get(item).getPrice())>0){
-			VendingMachineCLI.setCurrentMoney(VendingMachineCLI.getCurrentMoney().subtract(inventory.get(item).getPrice()));
+	public static void feedMoneyGUI(int amount, JFrame window){
+		if(amount>0){
+			VendingMachineCLI.setCurrentMoney(new BigDecimal(amount).add(VendingMachineCLI.getCurrentMoney()));
+			Log.theftLog("Feed Money", new BigDecimal(amount), VendingMachineCLI.getCurrentMoney());
 		}
+		else JOptionPane.showMessageDialog(window, "Please enter a valid number", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+	}
+	public static void selectItemGUI(String item, Map<String, VendingItem> inventory, JFrame window){
+		item = item.toUpperCase();
+
+
+			if (inventory.containsKey(item) ) {
+				if (VendingMachineCLI.getCurrentMoney().compareTo(inventory.get(item).getPrice()) < 0) JOptionPane.showMessageDialog(window, "Not enough funds, please insert more money", "Inadequate Funds", JOptionPane.ERROR_MESSAGE);
+				else if (inventory.get(item).getCurrentStock() < 1) JOptionPane.showMessageDialog(window, "Item Unavailable, please try again", "SOLD OUT", JOptionPane.ERROR_MESSAGE);
+				else{VendingMachineCLI.setCurrentMoney(VendingMachineCLI.getCurrentMoney().subtract(inventory.get(item).getPrice()));
+				inventory.get(item).reduceStock();
+				inventory.get(item).itemMessage();
+					System.out.println("Current Money: $"+VendingMachineCLI.getCurrentMoney());
+				JOptionPane.showMessageDialog(window, "Dispensing : "+inventory.get(item).getName() + "\n Price: "+ inventory.get(item).getPrice(), inventory.get(item).itemMessage(), JOptionPane.INFORMATION_MESSAGE);
+				Log.theftLog(inventory.get(item).getName()+" "+item, inventory.get(item).getPrice(), VendingMachineCLI.getCurrentMoney());
+				}
+			} else JOptionPane.showMessageDialog(window, "Please enter valid Vending Location", "Invalid Input", JOptionPane.ERROR_MESSAGE);
+
+
+
 	}
 }
