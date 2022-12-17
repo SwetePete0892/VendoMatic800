@@ -80,8 +80,8 @@ public class Log {
                 BigDecimal itemPrice = individualUnit.getValue().getPrice();
                 int currentStock = individualUnit.getValue().getCurrentStock();
 
-                if (currentStock < 5) {
-                    int unitsSold = 5 - currentStock;
+                if (currentStock < VendingItem.getMAX_STOCK_LIMIT()) {
+                    int unitsSold = VendingItem.getMAX_STOCK_LIMIT() - currentStock;
                     BigDecimal unitsSoldDecimal = new BigDecimal(unitsSold);
                     totalSales = totalSales.add(itemPrice.multiply(unitsSoldDecimal));
                     salesReportWriter.printf("%-20s | %2d\n", itemName, unitsSold);

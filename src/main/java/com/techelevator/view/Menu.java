@@ -72,17 +72,16 @@ public class Menu {
 			try {
 				Integer amount = Integer.valueOf(in.nextLine());
 				if (amount > 0) {
-					currentMoney = currentMoney.add(new BigDecimal(amount));
+					currentMoney = currentMoney.add(new BigDecimal(amount + ".00"));
 					VendingMachineCLI.setCurrentMoney(currentMoney);
-					Log.theftLog("Feed Money", new BigDecimal(amount), VendingMachineCLI.getCurrentMoney());
+					Log.theftLog("Feed Money", new BigDecimal(amount + ".00"), VendingMachineCLI.getCurrentMoney());
 
 				} else {
 					System.out.println("cant input a negative number or 0");
 				}
-				System.out.println("Amount Entered: $" + amount + ".00 Current Amount: $" + currentMoney);
+				System.out.println("**Amount Entered: $" + amount + ".00**");
 			} catch(NumberFormatException nfe){
 				System.out.println("Please enter valid input");
-				System.out.println("\nCurrent Amount: $" + currentMoney);
 			}
 	}
 
@@ -122,7 +121,8 @@ public class Menu {
 			}else{
 				map.get(code).reduceStock();
 				VendingMachineCLI.setCurrentMoney(VendingMachineCLI.getCurrentMoney().subtract(map.get(code).getPrice()));
-				System.out.println(map.get(code).getName()+" cost: $"+map.get(code).getPrice()+" money Remaining: $"+VendingMachineCLI.getCurrentMoney()+" " +
+				Log.theftLog(map.get(code).getName() + " " + code, map.get(code).getPrice(), VendingMachineCLI.getCurrentMoney());
+				System.out.println("\n" + map.get(code).getName()+" cost: $"+map.get(code).getPrice()+" Money Remaining: $"+VendingMachineCLI.getCurrentMoney()+" " +
 						"\n"+map.get(code).itemMessage());
 			}
 		}else {

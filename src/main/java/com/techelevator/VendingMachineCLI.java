@@ -71,6 +71,7 @@ public class VendingMachineCLI {
 	public void purchase() {
 //		Scanner input = new Scanner(System.in);
 		while (true) {
+			System.out.println("\n**Current Money: $" + currentMoney + "**");
 			String choice = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 
 			if (choice.equals(MenuTextOptions.PURCHASE_MENU_FEED_MONEY.getText())) {
