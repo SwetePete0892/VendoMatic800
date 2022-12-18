@@ -86,12 +86,13 @@ public class Menu {
 	}
 
 	public static String remainingChange(BigDecimal change){
+
 		Integer tempChange = change.multiply(new BigDecimal(100)).intValue();
-		int quarters = tempChange / 25;
-		tempChange = tempChange % 25;
-		int dimes = tempChange / 10;
-		tempChange = tempChange % 10;
-		int nickels = tempChange / 5;
+		int quarters = tempChange / CoinValues.QUARTER.value;
+		tempChange = tempChange % CoinValues.QUARTER.value;
+		int dimes = tempChange / CoinValues.DIME.value;
+		tempChange = tempChange % CoinValues.DIME.value;
+		int nickels = tempChange / CoinValues.NICKEL.value;
 
 		String givenChange =("Your change of $" + VendingMachineCLI.getCurrentMoney() + ": " + quarters +  " quarters "
 				+ dimes + " dimes " + nickels + " nickels ");

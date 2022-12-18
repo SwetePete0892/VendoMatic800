@@ -47,9 +47,11 @@ public class VendingGUI {
 
         //adding buttons and their uses
         JButton displayStuff = new JButton("Display Items");
+        displayStuff.setFocusable(false);
         displayStuff.addActionListener(e-> JOptionPane.showMessageDialog(window, VendingMachineCLI.displayCurrentInventoryString(VendingMachineCLI.getCurrentInventory()),
                 "Vendo-Matic 800 Inventory", JOptionPane.INFORMATION_MESSAGE));
         JButton purchaseMenuButton = new JButton("Purchase Menu");
+        purchaseMenuButton.setFocusable(false);
         purchaseMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,6 +63,7 @@ public class VendingGUI {
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(e->System.exit(0));
         JButton feedButton = new JButton("Feed Money");
+        feedButton.setFocusable(false);
         feedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,6 +80,7 @@ public class VendingGUI {
             }
         });
         JButton selectButton = new JButton("Select Item");
+        selectButton.setFocusable(false);
         selectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,6 +91,7 @@ public class VendingGUI {
             }
         });
         JButton finishedButton = new JButton("Finish Transaction");
+        finishedButton.setFocusable(false);
         finishedButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
