@@ -137,6 +137,7 @@ public class Menu {
 		if(amount>0){
 			VendingMachineCLI.setCurrentMoney(new BigDecimal(amount).add(VendingMachineCLI.getCurrentMoney()));
 			Log.theftLog("Feed Money", new BigDecimal(amount), VendingMachineCLI.getCurrentMoney());
+			VendingGUI.updateCash();
 		}
 		else JOptionPane.showMessageDialog(window, "Please enter a valid number", "Invalid Input", JOptionPane.ERROR_MESSAGE);
 	}
