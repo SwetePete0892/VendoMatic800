@@ -32,7 +32,7 @@ public class Log {
         try{
 
             if(THEFT_REPORT_DIRECTORY.mkdir()){
-                // Creates directory for theft reports if it doesn't exist.
+                // Creates directory for theft reports if a directory doesn't exist.
             }
 
             if(theftWriter == null){
@@ -40,14 +40,12 @@ public class Log {
                         THEFT_REPORT_DIRECTORY + "/" + DATESTAMP + "theftLog.log",true), true);
             }
 
-            //I need to go back and learn about local currency and how to use that
             theftWriter.println(TIMESTAMP + " | " + action + " | $" + transactionAmount + " | $" + totalMoney);
 
         } catch (FileNotFoundException nfe){
             System.out.println(nfe.getMessage());
 
         } catch (Exception e) {
-            // Should I make a custom exception?
             System.out.println("There was a problem with writing to theftLog");
 
         }
@@ -61,7 +59,7 @@ public class Log {
         try {
 
             if(SALES_REPORT_DIRECTORY.mkdir()){
-                // Creates sales report directory if it doesn't exist.
+                // Creates sales report directory if a directory doesn't exist.
             }
 
             if(salesReportWriter == null){
