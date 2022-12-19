@@ -6,10 +6,7 @@ import com.techelevator.view.VendingGUI;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 
 public class VendingMachineCLI {
 	private static final String[] MAIN_MENU_OPTIONS =  MenuTextOptions.mainMenu();
@@ -18,26 +15,24 @@ public class VendingMachineCLI {
 	public File vendingInventoryCatalog = new File("vendingmachine.csv");
 	private static Map<String, VendingItem> currentInventory = new TreeMap<>();
 	private static BigDecimal currentMoney = new BigDecimal("0.00");
+	private Map<String, VendingItemTypes> mapOfTypes = Map.of("Candy", VendingItemTypes.CANDY, "Chip",VendingItemTypes.CHIP,"Drink", VendingItemTypes.DRINK, "Gum", VendingItemTypes.GUM);
 
 	// Constructor
-	public VendingMachineCLI(Menu menu) {
-		this.menu = menu;
-	}
+	public VendingMachineCLI(Menu menu) {this.menu = menu;}
 
 	// Setters & Getters
 
 	public static void setCurrentMoney(BigDecimal updatedMoney){currentMoney = updatedMoney;}
 	public static Map<String, VendingItem> getCurrentInventory() {return currentInventory;}
 
-	public static BigDecimal getCurrentMoney(){
-		return currentMoney;
-	}
+	public static BigDecimal getCurrentMoney(){return currentMoney;}
 	public static void main(String[] args) {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.createVendingInventory();
 		new VendingGUI();
 	}
+
 	public static void alternateRun(){
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
@@ -99,41 +94,12 @@ public class VendingMachineCLI {
 				String[] inventoryIntoParts = currentInventoryItem.split("\\|");
 
 				// For readability, I will store each item of the array in a variable
-					// Turning a string into a BigDecimal is better for accuracy and format, so I have found
 				String vendingLocation = inventoryIntoParts[0];
 				String nameOfItem = inventoryIntoParts[1];
 				BigDecimal priceOfItem = new BigDecimal(inventoryIntoParts[2]);
 				String typeOfItem = inventoryIntoParts[3];
-
-				// Using a switch case to identify the type of item and then add to our Map
-				//Modified the item creation to use ENUM instead for item types*************************************
-				switch(typeOfItem.toLowerCase()){
-					case "gum":
-						VendingItem gumItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.GUM);
-						currentInventory.put(vendingLocation, gumItem);
-						break;
-
-					case "chip":
-						VendingItem chipItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.CHIP);
-						currentInventory.put(vendingLocation, chipItem);
-						break;
-
-					case "drink":
-						VendingItem drinkItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.DRINK);
-						currentInventory.put(vendingLocation, drinkItem);
-						break;
-
-					case "candy":
-						VendingItem candyItem = new VendingItem(nameOfItem, priceOfItem, VendingItemTypes.CANDY);
-						currentInventory.put(vendingLocation, candyItem);
-						break;
-
-					default:
-						System.out.println("Something went wrong while trying to create an item from the file.");
-				}
-
+				currentInventory.put(vendingLocation, new VendingItem(nameOfItem, priceOfItem, mapOfTypes.get(typeOfItem)));
 			}
-
 		} catch (FileNotFoundException e){
 			System.out.println(e.getMessage());
 		}
@@ -164,7 +130,7 @@ public class VendingMachineCLI {
 	}
 	public static String displayCurrentInventoryString(Map<String, VendingItem> currentInventory){
 
-		StringBuilder test = new StringBuilder();
+		StringBuilder stringOfInventory = new StringBuilder();
 
 		for(Map.Entry<String, VendingItem> individualVendingItem : currentInventory.entrySet()){
 
@@ -175,16 +141,16 @@ public class VendingMachineCLI {
 			int currentStock = individualVendingItem.getValue().getCurrentStock();
 
 			if(currentStock == 0){
-				test.append(currentLocation).append(" | ").append(currentName).append(" | ").append(currentPrice).append(" | SOLD OUT\n");
-				test.append("--------------------------------------------\n");
+				stringOfInventory.append(currentLocation).append(" | ").append(currentName).append(" | $").append(currentPrice).append(" | SOLD OUT\n");
+				stringOfInventory.append("--------------------------------------------\n");
 			} else {
-				test.append(currentLocation).append(" | ").append(currentName).append(" | ").append(currentPrice).append(" | ").append(currentStock).append("\n");
-				test.append("--------------------------------------------\n");
+				stringOfInventory.append(currentLocation).append(" | ").append(currentName).append(" | $").append(currentPrice).append(" | ").append(currentStock).append("\n");
+				stringOfInventory.append("--------------------------------------------\n");
 
 			}
 
 		}
-		return test.toString();
+		return stringOfInventory.toString();
 	}
 
 }
