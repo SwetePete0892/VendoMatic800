@@ -21,7 +21,6 @@ public class VendingGUI {
     JPanel selectItem = new JPanel();
     JLabel cash = new JLabel();
     static JLabel cash2 = new JLabel();
-    private boolean buttonMode = false;
 
 
 
@@ -54,12 +53,12 @@ public class VendingGUI {
 
         purchase.add(cash);
 
-        List<JButton> test = new ArrayList<>();
-        VendingMachineCLI.getCurrentInventory().entrySet().forEach(e -> test.add(new JButton(e.getValue().getName()+": $" +e.getValue().getPrice()+ " "+ e.getKey())));
-        test.forEach(button -> button.addActionListener(e->updateCash()));
-        test.forEach(button -> button.addActionListener(e->Menu.selectItemGUI(button.getText().substring(button.getText().length()-2),VendingMachineCLI.getCurrentInventory(),window)));
+        List<JButton> generatedButtons = new ArrayList<>();
+        VendingMachineCLI.getCurrentInventory().entrySet().forEach(e -> generatedButtons.add(new JButton(e.getValue().getName()+": $" +e.getValue().getPrice()+ " "+ e.getKey())));
+        generatedButtons.forEach(button -> button.addActionListener(e->updateCash()));
+        generatedButtons.forEach(button -> button.addActionListener(e->Menu.selectItemGUI(button.getText().substring(button.getText().length()-2),VendingMachineCLI.getCurrentInventory(),window)));
 
-        test.forEach(button -> selectItem.add(button));
+        generatedButtons.forEach(button -> selectItem.add(button));
 
         selectItem.setLayout(new GridLayout(5,4,15,15));
         JButton backButton = new JButton("Go Back");
@@ -109,8 +108,6 @@ public class VendingGUI {
                     int passedMoney = Integer.parseInt(JOptionPane.showInputDialog(window,
                             "Please Enter Amount Of Money To Deposit", "Feed Money", JOptionPane.QUESTION_MESSAGE));
                     Menu.feedMoneyGUI(passedMoney, window);
-                    Log.theftLog("Feed Money", new BigDecimal(passedMoney), VendingMachineCLI.getCurrentMoney());
-                    System.out.println("Current Money: $" + VendingMachineCLI.getCurrentMoney());
                     cash.setText("Current Money : $" + VendingMachineCLI.getCurrentMoney());
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(window, "Please enter a whole number", "Invalid Input", JOptionPane.ERROR_MESSAGE);
@@ -123,7 +120,7 @@ public class VendingGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 /*String item = JOptionPane.showInputDialog(window, VendingMachineCLI.displayCurrentInventoryString(VendingMachineCLI.getCurrentInventory()),
-                        "Please enter the Location", JOptionPane.QUESTION_MESSAGE);
+                        "Please enter the Location", JOptionPane.QUESTION_MESSAGE);   /// old select item takes user input
                 Menu.selectItemGUI(item, VendingMachineCLI.getCurrentInventory(), window);*/
                 window.setContentPane(selectItem);
                 window.invalidate();

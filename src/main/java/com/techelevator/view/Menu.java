@@ -151,7 +151,6 @@ public class Menu {
 				else{VendingMachineCLI.setCurrentMoney(VendingMachineCLI.getCurrentMoney().subtract(inventory.get(item).getPrice()));
 				inventory.get(item).reduceStock();
 				inventory.get(item).itemMessage();
-					System.out.println("Current Money: $"+VendingMachineCLI.getCurrentMoney());
 				JOptionPane.showMessageDialog(window, "Dispensing : "+inventory.get(item).getName() + "\n Price: "+ inventory.get(item).getPrice(), inventory.get(item).itemMessage(), JOptionPane.INFORMATION_MESSAGE);
 				Log.theftLog(inventory.get(item).getName()+" "+item, inventory.get(item).getPrice(), VendingMachineCLI.getCurrentMoney());
 				}
